@@ -28,3 +28,27 @@ class mysqllib:
             session.rollback()
         finally:
             session.close()
+
+    """get x from database"""
+    def getX(self, model: Base):
+        session = Session(self.engine)
+        try:
+            rows = session.query(model.date_time)
+            return list(rows)
+        except Exception as e:
+            print(e)
+            session.rollback()
+        finally:
+            session.close()
+
+    """get y from database"""
+    def getY(self, model: Base):
+        session = Session(self.engine)
+        try:
+            rows = session.query(model.answer_time)
+            return list(rows)
+        except Exception as e:
+            print(e)
+            session.rollback()
+        finally:
+            session.close()

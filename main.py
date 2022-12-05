@@ -1,4 +1,5 @@
 import yaml
+import matplotlib.pyplot as plt
 
 from DataBase.mysqllib import mysqllib
 from domain.dataBase import MyWarning
@@ -17,8 +18,15 @@ def main():
                       cfg['user'],
                       cfg['password'],
                       cfg['database'])
-    rows = myBase.getLogs(MyWarning)
-    print(rows[0])
+
+    x = myBase.getX(MyWarning)
+    y = myBase.getY(MyWarning)
+
+    plt.figure(figsize=(12, 7))
+    plt.plot(x, y, 'o-r', label="warning", lw=1, mec='b', mew=1, ms=5)
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ == '__main__':
