@@ -19,8 +19,8 @@ def main():
                       cfg['password'],
                       cfg['database'])
 
-    x = myBase.getX(MyWarning)
-    y = myBase.getY(MyWarning)
+    x = myBase.getCollumns([MyWarning.date_time])
+    y = myBase.getCollumns([MyWarning.answer_time])
 
     plt.figure(figsize=(12, 7))
     plt.plot(x, y, 'o-r', label="warning", lw=1, mec='b', mew=1, ms=5)

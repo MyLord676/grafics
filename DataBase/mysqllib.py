@@ -1,5 +1,5 @@
 import sqlalchemy as db
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Query
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -18,7 +18,7 @@ class mysqllib:
         print("Connected to mysql")
 
     """get from database"""
-    def getLogs(self, model: Base):
+    def getTable(self, model: Base):
         session = Session(self.engine)
         try:
             rows = session.query(model)
@@ -29,23 +29,11 @@ class mysqllib:
         finally:
             session.close()
 
-    """get x from database"""
-    def getX(self, model: Base):
+    """get columns from database"""
+    def getCollumns(self, collumns: "list[db.Column]"):
         session = Session(self.engine)
         try:
-            rows = session.query(model.date_time)
-            return list(rows)
-        except Exception as e:
-            print(e)
-            session.rollback()
-        finally:
-            session.close()
-
-    """get y from database"""
-    def getY(self, model: Base):
-        session = Session(self.engine)
-        try:
-            rows = session.query(model.answer_time)
+            rows = Query(collumns, session=session)
             return list(rows)
         except Exception as e:
             print(e)
