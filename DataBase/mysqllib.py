@@ -30,10 +30,16 @@ class mysqllib:
             session.close()
 
     """get columns from database"""
-    def getCollumns(self, collumns: "list[db.Column]"):
+    def getCollumns(self, collumns: "list[db.Column]",
+                    leftBound, rightBound,
+                    orderby=0, filterBy=0):
         session = Session(self.engine)
         try:
-            rows = Query(collumns, session=session)
+            rows = Query(collumns, session=session).filter(
+                        leftBound < collumns[filterBy],
+                        rightBound > collumns[filterBy])\
+                            .order_by(collumns[orderby])
+
             return list(rows)
         except Exception as e:
             print(e)

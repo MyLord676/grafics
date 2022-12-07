@@ -1,8 +1,10 @@
 import yaml
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 from DataBase.mysqllib import mysqllib
 from domain.dataBase import MyWarning
+from MyLibs.rounding import rounding
 
 
 def main():
@@ -19,12 +21,19 @@ def main():
                       cfg['password'],
                       cfg['database'])
 
-    x = myBase.getCollumns([MyWarning.date_time])
-    y = myBase.getCollumns([MyWarning.answer_time])
+    startDate = datetime.strptime(cfg['startDate'], "%d-%m-%Y %H:%M:%S")
+    endDate = datetime.strptime(cfg['endDate'], "%d-%m-%Y %H:%M:%S")
+    rows = myBase.getCollumns([MyWarning.date_time, MyWarning.answer_time],
+                              startDate, endDate)
 
     plt.figure(figsize=(12, 7))
-    plt.plot(x, y, 'o-r', label="warning", lw=1, mec='b', mew=1, ms=5)
-    plt.legend()
+
+    for date, ans in rounding.arrRoundSortedList(rows,
+                                                 cfg['deltaTimeInSeconds']):
+        print(date, ans)
+        plt.plot(date, ans, 'o-r', lw=1, mec='b', mew=1, ms=5)
+
+    plt.legend(['Warning line'])
     plt.grid(True)
     plt.show()
 

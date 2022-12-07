@@ -3,3 +3,7 @@ port: 3306
 user: logparseruser
 password: Alex9429
 database: logparser
+
+startDate: 1-11-2022 1:1:1
+endDate: 1-12-2022 1:1:1
+deltaTimeInSeconds: 400
