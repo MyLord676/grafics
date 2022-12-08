@@ -28,10 +28,14 @@ def main():
 
     plt.figure(figsize=(12, 7))
 
+    x = []
+    y = []
     for date, ans in rounding.arrRoundSortedList(rows,
                                                  cfg['deltaTimeInSeconds']):
         print(date, ans)
-        plt.plot(date, ans, 'o-r', lw=1, mec='b', mew=1, ms=5)
+        x.append(date)
+        y.append(ans)
+    plt.plot(x, y, 'o-r', lw=1, mec='b', mew=1, ms=5)
 
     plt.legend(['Warning line'])
     plt.grid(True)
