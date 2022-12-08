@@ -7,6 +7,8 @@ class rounding():
     def arrRoundSortedList(arr: "list", deltaSeconds: int,
                            dateIndex=0, roundValueIndex=1) ->\
                            "Generator[tuple[datetime, int], None, None]":
+        if not arr or len(arr) == 0:
+            return
         tmpData = arr[0][dateIndex]
         rndValue = arr[0][roundValueIndex]
         count = 1

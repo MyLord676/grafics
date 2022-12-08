@@ -28,6 +28,9 @@ def main():
     endDate = datetime.strptime(cfg['endDate'], "%d-%m-%Y %H:%M:%S")
     rows = myBase.getCollumns([MyWarning.date_time, MyWarning.answer_time],
                               startDate, endDate)
+    if len(rows) == 0:
+        print("0 rows get from database")
+        return
 
     figure = pylab.figure()
     axes = figure.add_subplot(1, 1, 1)
