@@ -1,5 +1,8 @@
 import yaml
-import matplotlib.pyplot as plt
+
+import pylab
+import matplotlib.ticker
+
 from datetime import datetime
 
 from DataBase.mysqllib import mysqllib
@@ -26,20 +29,32 @@ def main():
     rows = myBase.getCollumns([MyWarning.date_time, MyWarning.answer_time],
                               startDate, endDate)
 
-    plt.figure(figsize=(12, 7))
+    figure = pylab.figure()
+    axes = figure.add_subplot(1, 1, 1)
+
+    figure.set_figheight(7)
+    figure.set_figwidth(12)
 
     x = []
     y = []
     for date, ans in rounding.arrRoundSortedList(rows,
                                                  cfg['deltaTimeInSeconds']):
-        print(date, ans)
-        x.append(date)
-        y.append(ans)
-    plt.plot(x, y, 'o-r', lw=1, mec='b', mew=1, ms=5)
+        x.append(date.timestamp())
+        y.append(ans / 1000)
 
-    plt.legend(['Warning line'])
-    plt.grid(True)
-    plt.show()
+    formatter = matplotlib.ticker.FuncFormatter(timestampFormatter)
+    axes.xaxis.set_major_formatter(formatter)
+
+    pylab.plot(x, y, 'o-r', lw=1, mec='b', mew=1, ms=5)
+
+    axes.grid(True)
+    pylab.legend(['Warning line'])
+    pylab.show()
+
+
+def timestampFormatter(timestamp: float, pos):
+    date = datetime.fromtimestamp(timestamp)
+    return ("{}\n{}".format(date.date(), date.time()))
 
 
 if __name__ == '__main__':
