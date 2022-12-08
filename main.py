@@ -32,6 +32,10 @@ def main():
     figure = pylab.figure()
     axes = figure.add_subplot(1, 1, 1)
 
+    axes.set_title('Just title')
+    axes.set_ylabel('Time of responce (s)')
+    axes.set_xlabel('Date and time')
+
     figure.set_figheight(7)
     figure.set_figwidth(12)
 
